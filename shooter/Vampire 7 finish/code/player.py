@@ -1,4 +1,4 @@
-from settings import * 
+from settings import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, groups, collision_sprites):
@@ -13,6 +13,12 @@ class Player(pygame.sprite.Sprite):
         self.direction = pygame.Vector2()
         self.speed = 500
         self.collision_sprites = collision_sprites
+
+        # health and invincibility
+        self.health = 5
+        self.invincible = False
+        self.invincibility_duration = 2000  # 2 seconds
+        self.hurt_time = 0
 
     def load_images(self):
         self.frames = {'left': [], 'right': [], 'up': [], 'down': []}
@@ -58,8 +64,22 @@ class Player(pygame.sprite.Sprite):
         # animate
         self.frame_index = self.frame_index + 5 * dt if self.direction else 0
         self.image = self.frames[self.state][int(self.frame_index) % len(self.frames[self.state])]
+    
+    def take_damage(self):
+        if not self.invincible:
+            self.health -= 1
+            self.invincible = True
+            self.hurt_time = pygame.time.get_ticks()
+
+    def invincibility_timer(self):
+        if self.invincible:
+            current_time = pygame.time.get_ticks()
+            if current_time - self.hurt_time >= self.invincibility_duration:
+                self.invincible = False
+
 
     def update(self, dt):
         self.input()
         self.move(dt)
         self.animate(dt)
+        self.invincibility_timer()
