@@ -14,7 +14,7 @@ class Game:
     def __init__(self):
         pygame.init()
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-        pygame.display.set_caption('Survivor')
+        pygame.display.set_caption('Vampire: The Hunter')
         self.clock = pygame.time.Clock()
         self.running = True
         self.state = 'MENU'
@@ -67,6 +67,8 @@ class Game:
         self.game_over_surf = pygame.image.load(os.path.join(game_dir, 'images', 'ui', 'gameover.png')).convert_alpha()
         self.game_over_surf = pygame.transform.scale(self.game_over_surf, (WINDOW_WIDTH, WINDOW_HEIGHT))
         self.main_menu_button_surf = pygame.image.load(os.path.join(game_dir, 'images', 'ui', 'main_menu.png')).convert_alpha()
+        self.main_menu_button_surf = pygame.transform.rotozoom(self.main_menu_button_surf, 0, 0.2)
+        self.paused_surf = pygame.image.load(os.path.join(game_dir, 'images', 'ui', 'paused.png')).convert_alpha()
         folders = list(walk(os.path.join(game_dir, 'images', 'enemies')))[0][1]
         self.enemy_frames = {}
         for folder in folders:
@@ -192,10 +194,9 @@ class Game:
         overlay = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.SRCALPHA)
         overlay.fill((0, 0, 0, 150))
         self.display_surface.blit(overlay, (0, 0))
-        font = pygame.font.Font(None, 100)
-        text = font.render('Paused', True, (255, 255, 255))
-        text_rect = text.get_rect(center=(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - 50))
-        self.display_surface.blit(text, text_rect)
+
+        paused_rect = self.paused_surf.get_rect(center=(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - 50))
+        self.display_surface.blit(self.paused_surf, paused_rect)
 
         main_menu_button_rect = self.main_menu_button_surf.get_rect(center=(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + 50))
         self.display_surface.blit(self.main_menu_button_surf, main_menu_button_rect)
