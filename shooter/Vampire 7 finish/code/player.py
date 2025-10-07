@@ -1,28 +1,24 @@
 from settings import *
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, collision_sprites):
+    def __init__(self, pos, groups, collision_sprites, hurt_sound):
         super().__init__(groups)
         self.load_images()
         self.state, self.frame_index = 'right', 0
         self.image = pygame.image.load(join('images', 'player', 'down', '0.png')).convert_alpha()
-        self.rect = self.image.get_frect(center = pos)
+        self.rect = self.image.get_rect(center = pos)
         self.hitbox_rect = self.rect.inflate(-60, -90)
-    
-        # movement 
         self.direction = pygame.Vector2()
         self.speed = 500
         self.collision_sprites = collision_sprites
-
-        # health and invincibility
         self.health = 5
         self.invincible = False
-        self.invincibility_duration = 2000  # 2 seconds
+        self.invincibility_duration = 2000
         self.hurt_time = 0
+        self.hurt_sound = hurt_sound
 
     def load_images(self):
         self.frames = {'left': [], 'right': [], 'up': [], 'down': []}
-
         for state in self.frames.keys():
             for folder_path, sub_folders, file_names in walk(join('images', 'player', state)):
                 if file_names:
@@ -55,13 +51,10 @@ class Player(pygame.sprite.Sprite):
                     if self.direction.y > 0: self.hitbox_rect.bottom = sprite.rect.top
 
     def animate(self, dt):
-        # get state 
         if self.direction.x != 0:
             self.state = 'right' if self.direction.x > 0 else 'left'
         if self.direction.y != 0:
             self.state = 'down' if self.direction.y > 0 else 'up'
-
-        # animate
         self.frame_index = self.frame_index + 5 * dt if self.direction else 0
         self.image = self.frames[self.state][int(self.frame_index) % len(self.frames[self.state])]
     
@@ -70,13 +63,13 @@ class Player(pygame.sprite.Sprite):
             self.health -= 1
             self.invincible = True
             self.hurt_time = pygame.time.get_ticks()
+            self.hurt_sound.play()
 
     def invincibility_timer(self):
         if self.invincible:
             current_time = pygame.time.get_ticks()
             if current_time - self.hurt_time >= self.invincibility_duration:
                 self.invincible = False
-
 
     def update(self, dt):
         self.input()

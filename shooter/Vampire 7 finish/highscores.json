@@ -1,10 +1,78 @@
 [
     {
         "name": "PRAN",
+        "score": 750
+    },
+    {
+        "name": "PRAN",
         "score": 740
     },
     {
         "name": "PRIT",
+        "score": 670
+    },
+    {
+        "name": "d",
+        "score": 500
+    },
+    {
+        "name": "PRIT",
+        "score": 470
+    },
+    {
+        "name": "PRIT",
+        "score": 350
+    },
+    {
+        "name": "Pran",
+        "score": 330
+    },
+    {
+        "name": "pRAN",
+        "score": 280
+    },
+    {
+        "name": "PRAT",
+        "score": 110
+    },
+    {
+        "name": "PRIT",
         "score": 70
+    },
+    {
+        "name": "f",
+        "score": 40
+    },
+    {
+        "name": "hELL",
+        "score": 30
+    },
+    {
+        "name": "test",
+        "score": 30
+    },
+    {
+        "name": "nOOb",
+        "score": 20
+    },
+    {
+        "name": "PRIT",
+        "score": 20
+    },
+    {
+        "name": "DGDG",
+        "score": 20
+    },
+    {
+        "name": "hars",
+        "score": 0
+    },
+    {
+        "name": "PRA",
+        "score": 0
+    },
+    {
+        "name": "test",
+        "score": 0
     }
 ]
